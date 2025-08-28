@@ -16,7 +16,6 @@ type AuthStore = {
 const useAuthStore = create<AuthStore>((set) => ({
   user: null,
   login: (username, password) => {
-    // Fake login logic – replace with API later
     if (username === "admin" && password === "password") {
       set({ user: { id: "1", username: "admin", role: "admin" } });
     } else {

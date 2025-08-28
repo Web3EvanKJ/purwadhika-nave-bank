@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,65 +10,62 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import useBlogStore, { BlogPost } from "@/store/blogStore";
 import useAuthStore from "@/store/authStore";
 
-type BlogFormDialogProps = {
-  mode: "add" | "edit";
-  post?: BlogPost;
-};
+export function BlogFormDialog() {
+  const APP_ID = process.env.NEXT_PUBLIC_APP_ID;
+  const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
-export function BlogFormDialog({ mode, post }: BlogFormDialogProps) {
-  const { addPost, editPost } = useBlogStore();
   const { user } = useAuthStore();
 
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (mode === "edit" && post) {
-      setTitle(post.title);
-      setBody(post.body);
-    }
-  }, [mode, post]);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
 
-    if (mode === "add") {
-      addPost({
-        title,
-        body,
-        author: user.username,
-        date: new Date().toLocaleDateString(),
-      });
-    } else if (mode === "edit" && post) {
-      editPost(post.id, { title, body });
-    }
+    try {
+      setLoading(true);
 
-    setTitle("");
-    setBody("");
-    setOpen(false);
+      // Save blog to Backendless
+      await fetch(
+        `https://api.backendless.com/${APP_ID}/${API_KEY}/data/blogs`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            body,
+            author: user.username, // comes from authStore
+            dates: new Date().toLocaleDateString(), // maps to your DB "dates" column
+          }),
+        }
+      );
+
+      // reset form
+      setTitle("");
+      setBody("");
+      setOpen(false);
+    } catch (err) {
+      console.error("Error saving blog:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        {mode === "add" ? (
-          <Button className="bg-green-600">+ Add Blog</Button>
-        ) : (
-          <Button variant="outline" size="sm">
-            Edit
-          </Button>
-        )}
+        <Button className="bg-green-600">+ Add Blog</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {mode === "add" ? "Create Blog Post" : "Edit Blog Post"}
-          </DialogTitle>
+          <DialogTitle>Create Blog Post</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
@@ -85,8 +82,8 @@ export function BlogFormDialog({ mode, post }: BlogFormDialogProps) {
             onChange={(e) => setBody(e.target.value)}
             required
           />
-          <Button type="submit" className="w-full">
-            {mode === "add" ? "Publish" : "Update"}
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Publishing..." : "Publish"}
           </Button>
         </form>
       </DialogContent>

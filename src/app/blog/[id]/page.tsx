@@ -1,19 +1,23 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import useBlogStore, { BlogPost } from "@/store/blogStore";
-import { BlogFormDialog } from "@/components/BlogFromDialog";
-import useAuthStore from "@/store/authStore";
-import { Button } from "@/components/ui/button";
+import { Blog } from "@/components/BlogPreview";
 import Image from "next/image";
 import { Calendar, User } from "lucide-react";
 
-export default function BlogDetailPage() {
-  const { id } = useParams();
-  const { posts, deletePost } = useBlogStore();
-  const { user } = useAuthStore();
+export default async function BlogDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const { id } = await params;
 
-  const post = posts.find((p: BlogPost) => p.id === Number(id));
+  const res = await fetch(
+    `https://squareburst-us.backendless.app/api/data/blogs/${id}`
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch blogs");
+  }
+
+  const post: Blog = await res.json();
 
   if (!post)
     return (
@@ -32,7 +36,7 @@ export default function BlogDetailPage() {
           <User size={16} /> {post.author}
         </span>
         <span className="flex items-center gap-1">
-          <Calendar size={16} /> {post.date}
+          <Calendar size={16} /> {post.dates}
         </span>
       </div>
 
@@ -50,21 +54,6 @@ export default function BlogDetailPage() {
       </div>
       {/* Blog Content */}
       <article className="leading-relaxed text-gray-800">{post.body}</article>
-
-      {/* Admin Controls */}
-      {user?.role === "admin" && (
-        <div className="flex gap-3 mt-10">
-          <BlogFormDialog mode="edit" post={post} />
-          <Button
-            variant="destructive"
-            size="sm"
-            className="shadow-md hover:scale-105 transition"
-            onClick={() => deletePost(post.id)}
-          >
-            Delete Post
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
