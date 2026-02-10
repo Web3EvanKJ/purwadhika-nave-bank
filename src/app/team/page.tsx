@@ -33,9 +33,46 @@ export default function TeamPage() {
           </p>
         </div>
       </section>
-      <main className="min-h-screen bg-gray-50 py-16 px-6">
-        <section className="max-w-6xl mx-auto text-center">
-          <FetchTeam />
+      <main className="min-h-screen bg-gray-50 py-2 px-6">
+        {/* Team Section */}
+        <section className="max-w-6xl mx-auto px-6 py-16">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <Image
+                src="/assets/nave-ceo.jpg"
+                alt="CEO"
+                width={200}
+                height={200}
+                className="w-[200px] h-[200px] mx-auto object-cover rounded-full"
+              />
+              <h3 className="mt-4 font-semibold">John Doe</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">CEO</p>
+            </div>
+            <div>
+              <Image
+                src="/assets/nave-deputy-ceo.jpg"
+                alt="Deputy CEO"
+                width={200}
+                height={200}
+                className="w-[200px] h-[200px] mx-auto object-cover rounded-full"
+              />
+              <h3 className="mt-4 font-semibold">Alice Tan</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Deputy CEO
+              </p>
+            </div>
+            <div>
+              <Image
+                src="/assets/nave-cfo.jpg"
+                alt="Head of Operations"
+                width={200}
+                height={200}
+                className="w-[200px] h-[200px] mx-auto object-cover rounded-full"
+              />
+              <h3 className="mt-4 font-semibold">Jackson Ron</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">CFO</p>
+            </div>
+          </div>
         </section>
       </main>
     </>

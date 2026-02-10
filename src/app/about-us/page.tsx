@@ -85,50 +85,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      {/* Team Section */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12 text-green-600">
-          Meet Our Team
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8 text-center">
-          <div>
-            <Image
-              src="/assets/nave-ceo.jpg"
-              alt="CEO"
-              width={200}
-              height={200}
-              className="w-[200px] h-[200px] mx-auto object-cover rounded-full"
-            />
-            <h3 className="mt-4 font-semibold">John Doe</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">CEO</p>
-          </div>
-          <div>
-            <Image
-              src="/assets/nave-deputy-ceo.jpg"
-              alt="Deputy CEO"
-              width={200}
-              height={200}
-              className="w-[200px] h-[200px] mx-auto object-cover rounded-full"
-            />
-            <h3 className="mt-4 font-semibold">Alice Tan</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Deputy CEO
-            </p>
-          </div>
-          <div>
-            <Image
-              src="/assets/nave-cfo.jpg"
-              alt="Head of Operations"
-              width={200}
-              height={200}
-              className="w-[200px] h-[200px] mx-auto object-cover rounded-full"
-            />
-            <h3 className="mt-4 font-semibold">Jackson Ron</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">CFO</p>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

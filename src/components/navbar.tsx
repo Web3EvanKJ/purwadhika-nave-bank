@@ -81,16 +81,6 @@ export default function Navbar() {
 
               <SheetClose asChild>
                 <Link
-                  href="/blog"
-                  className="flex w-full items-center py-2 text-lg font-semibold text-green-600"
-                  prefetch={false}
-                >
-                  Blog
-                </Link>
-              </SheetClose>
-
-              <SheetClose asChild>
-                <Link
                   href="/login"
                   className="flex w-full items-center justify-center py-2 text-lg font-semibold text-white bg-green-600 rounded-md mt-4"
                   prefetch={false}
@@ -141,13 +131,6 @@ export default function Navbar() {
           prefetch={false}
         >
           Team
-        </Link>
-        <Link
-          href="/blog"
-          className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-green-700 focus:bg-gray-100 focus:text-green-7  00 focus:outline-none disabled:pointer-events-none  dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 text-green-600"
-          prefetch={false}
-        >
-          Blog
         </Link>
         <Link
           href="/login"
